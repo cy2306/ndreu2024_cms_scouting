@@ -3,20 +3,26 @@ Plot 1d histogram of eta_asym vs abs(eta_avg) for ABCD regions
 of double J/Psi events.
 
 Variables needed:
-eta_asym = (N(deta > 0) - N(deta < 0)) / N_tot, and
-N_tot = N(deta > 0) + N(deta < 0),
-where N is the number of events in a bin.
+1. deta = eta1 - eta2,
+2. eta_avg = (eta1 + eta2) / 2,
+    where eta1 corresponds to the leading-pT J/Psi.
 
-eta_avg = (eta1 + eta2) / 2, where eta1 corresponds to the 
-leading J/Psi of the pair.
+(Optional for additional plots)
+3. eta1
+4. eta2
 
-deta = eta1 - eta2
+
+Calculations:
+1. N_tot = N(deta > 0) + N(deta < 0),
+    where N is the number of events in a bin.
+
+2. eta_asym = (N(deta > 0) - N(deta < 0)) / N_tot
 
 
 For each ABCD region:
 1. Read json file of the specified mass region and ABCD region.
-    json files can be made using bkgest_abcd_sort.py.
-    json files can be made using bkgest_abcd_sort.py.
+    json files can be made using dimuon_pairs_abcd_sort.py.
+    json files can be made using dimuon_pairs_abcd_sort.py.
     
     Examples of mass regions: 
     "JPsi": events with dimuon masses of 3.05-3.15 GeV.
