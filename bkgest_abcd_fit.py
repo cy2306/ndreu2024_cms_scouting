@@ -451,16 +451,16 @@ def th1f_ratiofit_create_draw(file_nameC, H1d_D, mass_region,
     H1d_ratio_clone.Fit(polyfit1)
     
     # Draw and print histogram.
-    C = TCanvas()
+    C = TCanvas("c_"+histname, "", 800, 650)
     P_hist = TPad("pad_"+histname, "", 0, 0, 1, 1)
-    P_hist.SetTopMargin(0.22)
-    P_hist.SetBottomMargin(0.2)
-    P_hist.SetLeftMargin(0.2)
+    P_hist.SetTopMargin(0.05)
+    P_hist.SetBottomMargin(0.15)
+    P_hist.SetLeftMargin(0.17)
     P_hist.SetRightMargin(0.05)
     P_hist.Draw()
 
     C.cd()
-    title_line1 = "#Sigma|q_{di-#mu}| = 0 pass-fail ratio"
+    """ title_line1 = "q_{4#mu} = 0 pass-fail ratio"
     title_line2 = "of {} {}".\
                     format(namey_formatted, mass_region_formatted)
     
@@ -475,7 +475,7 @@ def th1f_ratiofit_create_draw(file_nameC, H1d_D, mass_region,
     T_line1.SetBorderSize(0)
     T_line2.SetBorderSize(0)
     T_line1.Draw()
-    T_line2.Draw()
+    T_line2.Draw() """
 
 
     P_hist.cd()
@@ -488,18 +488,20 @@ def th1f_ratiofit_create_draw(file_nameC, H1d_D, mass_region,
     fill_color = TColor.GetColor(206, 181, 206)           # light purple
     H1d_ratio_clone.SetFillColor(fill_color) """
 
+    ytitle = "q_{4#mu} = 0 pass-fail ratio of events"
+
     H1d_ratio_clone.SetStats(0)
     H1d_ratio_clone.GetXaxis().SetTitle(yaxis_formatted)
     H1d_ratio_clone.GetXaxis().SetTitleSize(0.06)
-    H1d_ratio_clone.GetXaxis().SetTitleOffset(1.5)
-    H1d_ratio_clone.GetXaxis().SetLabelSize(0.05)
-    H1d_ratio_clone.GetYaxis().SetTitle("Ratio of events")
+    H1d_ratio_clone.GetXaxis().SetTitleOffset(1.)
+    H1d_ratio_clone.GetXaxis().SetLabelSize(0.06)
+    H1d_ratio_clone.GetYaxis().SetTitle(ytitle)
     H1d_ratio_clone.GetYaxis().SetTitleSize(0.06)
-    H1d_ratio_clone.GetYaxis().SetTitleOffset(1.5)
+    H1d_ratio_clone.GetYaxis().SetTitleOffset(1.)
     H1d_ratio_clone.GetYaxis().SetLabelSize(0.05)
 
     H1d_ratio_clone.SetMarkerStyle(20)
-    H1d_ratio_clone.SetMarkerSize(0.6)
+    H1d_ratio_clone.SetMarkerSize(0.8)
     H1d_ratio_clone.SetMarkerColor(kBlack)
     H1d_ratio_clone.SetLineColor(kBlack)
 
@@ -508,7 +510,21 @@ def th1f_ratiofit_create_draw(file_nameC, H1d_D, mass_region,
     H1d_ratio_clone.Draw("p same")
     polyfit1.Draw("same")
 
-    C.Print("bkgest_doubleJPsi_new_{}_fit_{}_ratio.pdf".\
+    T = TLatex()
+    T.SetNDC()
+    T.SetTextSize(0.04)
+    T.SetTextFont(42)      # non-bold Helvetica
+    T.SetTextAlign(13)     # align top left
+    T.DrawLatex(0.6, 0.9, mass_region_formatted)
+
+    L = TLegend(0.6, 0.72, 0.9, 0.82)
+    L.SetLineWidth(0)
+    L.SetTextSize(0.04)
+    L.AddEntry(H1d_ratio_clone, "Data", "lep")
+    L.AddEntry(polyfit1, "Polynomial fit R_{C/D}", "l")
+    L.Draw()
+
+    C.Print("fig_bkgest_doubleJPsi_new_{}_fit_{}_ratio.pdf".\
             format(mass_region, var_namey))
     P_hist.Clear()
     P_hist.Update()
@@ -529,7 +545,11 @@ def th1f_bkgfit_create(file_nameB, lpar1, mass_region,
 
     
     def polyfit(x, lpar1):
-        return lpar1[0] + lpar1[1]*x + lpar1[2]*x**2
+        if len(lpar1) == 3:
+            lpar1.append(0)
+            lpar1.append(0)
+        return lpar1[0] + lpar1[1]*x + lpar1[2]*x**2 \
+            + lpar1[3]*x**3 + lpar1[4]*x**4
     
     
     # Set up 1d histogram.
@@ -704,14 +724,6 @@ def th1f_bkgest_draw(H1d_A, H1d_bkg, H1d_pull,
     
     
     # Draw and print 1d histograms of A, Abkg, Apull.
-    """ hist_title_line1 = "Background estimate of {}".\
-        format(namex_formatted)
-    hist_title_line2 = "as function of {} {}".\
-        format(namey_formatted, mass_region_formatted) """
-    
-    hist_title_line1 = "Background estimate of {} as function of #alpha {}".\
-                        format("m_{4#mu}", mass_region_formatted)
-    
     H1d_A_clone = H1d_A.Clone(H1d_A.GetName()+"_clone")
     H1d_bkg_clone = H1d_bkg.Clone(H1d_bkg.GetName()+"_clone")
     H1d_pull_clone = H1d_pull.Clone(H1d_pull.GetName()+"_clone")
@@ -720,23 +732,35 @@ def th1f_bkgest_draw(H1d_A, H1d_bkg, H1d_pull,
     H1d_A_clone.Scale(1.0, "width")
 
 
-    C = TCanvas("canvas_{}_{}".format(var_namex, var_namey))
+    C = TCanvas("canvas_{}_{}".format(var_namex, var_namey), "",
+                800, 650)
     P_hist = TPad("th1f_x_data_bkg_{}_{}".format(var_namex, var_namey), "",
                     0, 0.35, 1, 1)     # top 65% of canvas
     P_pull = TPad("th1f_x_pull_{}_{}".format(var_namex, var_namey), "",
                     0, 0, 1, 0.34)     # bottom 35% of canvas
 
-    P_hist.SetTopMargin(0.15)
+    P_hist.SetTopMargin(0.05)
     P_hist.SetBottomMargin(0.02)
     P_hist.SetLeftMargin(0.15)
+    P_hist.SetRightMargin(0.05)
     P_pull.SetTopMargin(0.02)
     P_pull.SetBottomMargin(0.35)
     P_pull.SetLeftMargin(0.15)
+    P_pull.SetRightMargin(0.05)
 
     P_hist.Draw()
     P_pull.Draw()
 
     C.cd()
+    
+    """ hist_title_line1 = "Background estimate of {}".\
+        format(namex_formatted)
+    hist_title_line2 = "as function of {} {}".\
+        format(namey_formatted, mass_region_formatted)
+    
+    hist_title_line1 = "Background estimate of {} as function of #alpha {}".\
+                        format("m_{4#mu}", mass_region_formatted)
+    
     T_line1 = TPaveText(0.3, 0.93, 0.7, 0.96, "NDC")
     T_line1.AddText(hist_title_line1)
     T_line1.SetTextSize(0.045)
@@ -744,7 +768,7 @@ def th1f_bkgest_draw(H1d_A, H1d_bkg, H1d_pull,
     T_line1.SetBorderSize(0)
     T_line1.Draw()
 
-    """ T_line2 = TPaveText(0.3, 0.86, 0.7, 0.89, "NDC")
+    T_line2 = TPaveText(0.3, 0.86, 0.7, 0.89, "NDC")
     T_line2.AddText(hist_title_line2)
     T_line2.SetTextSize(0.045)
     T_line2.SetFillColor(0)
@@ -763,7 +787,7 @@ def th1f_bkgest_draw(H1d_A, H1d_bkg, H1d_pull,
     H1d_bkg_clone.SetLineColor(0)
     H1d_bkg_clone.SetFillColor(kOrange)
     H1d_A_clone.SetMarkerStyle(20)
-    H1d_A_clone.SetMarkerSize(0.4)
+    H1d_A_clone.SetMarkerSize(0.9)
     H1d_A_clone.SetLineColor(kBlack)
     H1d_A_clone.SetMarkerColor(kBlack)
 
@@ -771,19 +795,27 @@ def th1f_bkgest_draw(H1d_A, H1d_bkg, H1d_pull,
     H1d_bkg_clone.GetXaxis().SetTitle("")
     H1d_bkg_clone.GetXaxis().SetLabelOffset(100)
     H1d_bkg_clone.GetYaxis().SetTitle("Events / bin width")
-    H1d_bkg_clone.GetYaxis().SetTitleSize(0.07)
+    H1d_bkg_clone.GetYaxis().SetTitleSize(0.09)
     H1d_bkg_clone.GetYaxis().SetLabelSize(0.05)
-    H1d_bkg_clone.GetYaxis().SetTitleOffset(0.9)
+    H1d_bkg_clone.GetYaxis().SetTitleOffset(0.7)
     H1d_bkg_clone.SetMaximum(1.2 * ymax)
     H1d_bkg_clone.SetStats(0)
 
     H1d_bkg_clone.Draw("hist")
     H1d_A_clone.Draw("p same")
     H1d_A_clone.Draw("e0 same")
+
+    T = TLatex()
+    T.SetNDC()
+    T.SetTextSize(0.07)
+    T.SetTextFont(42)      # non-bold Helvetica
+    T.SetTextAlign(13)     # align top left
+    T.DrawLatex(0.55, 0.9, mass_region_formatted)
     
-    L = TLegend(0.7, 0.6, 0.88, 0.8)
+    L = TLegend(0.55, 0.6, 0.9, 0.82)
     L.SetLineWidth(0)
-    L.AddEntry(H1d_A_clone, "Data", "lep")
+    L.SetTextSize(0.07)
+    L.AddEntry(H1d_A_clone, "Data", "lep")   #3.15 < #hat{m}_{#mu#mu} < 4.0 GeV
     L.AddEntry(H1d_bkg_clone, "Background", "f")
     L.Draw()
     
@@ -801,14 +833,15 @@ def th1f_bkgest_draw(H1d_A, H1d_bkg, H1d_pull,
 
     H1d_pull_clone.SetStats(0)
     #H1d_pull_clone.GetXaxis().SetTitle(xaxis_formatted)
-    H1d_pull_clone.GetXaxis().SetTitle("m_{4#mu} (GeV)")
+    H1d_pull_clone.GetXaxis().SetTitle("m_{4#mu} (GeV/c^{2})")
     H1d_pull_clone.GetXaxis().SetTitleSize(0.13)
     H1d_pull_clone.GetXaxis().SetTitleOffset(1)
     H1d_pull_clone.GetXaxis().SetLabelSize(0.1)
     H1d_pull_clone.GetYaxis().SetTitle("Pull")
-    H1d_pull_clone.GetYaxis().SetTitleSize(0.13)
-    H1d_pull_clone.GetYaxis().SetTitleOffset(0.45)
-    H1d_pull_clone.GetYaxis().SetLabelSize(0.09)
+    H1d_pull_clone.GetYaxis().SetTitleSize(0.15)
+    H1d_pull_clone.GetYaxis().SetTitleOffset(0.4)
+    H1d_pull_clone.GetYaxis().SetNdivisions(504)
+    H1d_pull_clone.GetYaxis().SetLabelSize(0.11)
 
     H1d_pull_clone.Draw("hist")
 
@@ -840,7 +873,7 @@ def abcd_bkg_estimate(mass_region, var_namex, var_namey, binsx, binsy,
     print("##### Started {} as function of {} ({}) #####").\
             format(var_namex, var_namey, mass_region)
     
-    # Create and fill 1d hists of A,C,D regions.
+    # Create and fill 1d hists of A,B,C,D regions.
     H1d_A = th1f_create(mass_region, "A", var_namex, binsx)
     H1d_B = th1f_create(mass_region, "B", var_namex, binsx)
     #H1d_B = th1f_create(mass_region, "B", var_namey, binsy)
@@ -914,11 +947,16 @@ if __name__ == "__main__":
     #mass_region = "all" 
     #mass_region = "JPsi" 
     #mass_region = "other"
-
-    lmass_regions = [#"all", 
-                     "control1", 
+    
+    lmass_regions = [#"control1", 
                      "JPsi", 
-                     "control2"
+                     "control2",
+                     #"2gev", 
+                     #"4gev", 
+                     #"5gev",
+                     #"8gev",
+                     #"10gev",
+                     #"20gev"
                      ]
 
     lnames_x = [#"mavg", 
@@ -941,21 +979,23 @@ if __name__ == "__main__":
 
 
     # Set bins for mavg to match J/Psi window.
-    """ nbins_mavg_temp, abins_mavg_temp = percent_bins(1e-1, 5e2, 0.2)
+    nbins_mavg_temp, abins_mavg_temp = percent_bins(1e-1, 1e2, 0.2)
     lbins_mavg = [bin for bin in abins_mavg_temp \
                   if bin < 3.0 or bin > 3.2]
-    lbins_mavg.append(3.05)
-    lbins_mavg.append(3.15)
+    lbins_mavg.append(3.0)
+    lbins_mavg.append(3.2)
     lbins_mavg.sort()
-    bins_mavg = [len(lbins_mavg) -1, array(lbins_mavg)] """
+    bins_mavg = [len(lbins_mavg) -1, array(lbins_mavg)]
 
     """ abins_mavg = arange(1., 5.1, 0.1)
     bins_mavg = [len(abins_mavg) -1, abins_mavg] """
 
 
     dbins_x = {
-        "mavg": list(percent_bins(1e-1, 1e2, 0.1)),
-        "mfour": list(percent_bins(1., 1e3, 0.2)),
+        #"mavg": list(percent_bins(1e-1, 1e2, 0.1)),
+        "mavg": bins_mavg,
+        #"mfour": list(percent_bins(1e-2, 1e3, 0.2)),
+        "mfour": list(percent_bins(1., 5e2, 0.2)),
         "alpha": list(percent_bins(1e-3, 1., 0.2)),
         "dR": list(percent_bins(1e-5, 50., 0.3)),
         #"dR": list(percent_bins(1e-4, 1e-3, 0.3)),
@@ -968,13 +1008,16 @@ if __name__ == "__main__":
 
     dbins_y = dbins_x
 
-
     dmass_regions_formatted = {
-        "all": "(J/#psi with control regions)",
-        "JPsi": "(3.05-3.15 GeV)",
-        "control1": "(2.5-3.05 GeV)",
-        "control2": "(3.15-4.0 GeV)",
-        "other": "(J/#psi blind)"
+        "JPsi": "3.05 < #hat{m}_{#mu#mu} < 3.15 GeV/c^{2}",
+        "control1": "2.5 < #hat{m}_{#mu#mu} < 3.05 GeV/c^{2}",
+        "control2": "3.15 < #hat{m}_{#mu#mu} < 4.0 GeV/c^{2}",
+        "2gev": "2.0 < #hat{m}_{#mu#mu} < 3.0 GeV/c^{2}",
+        "4gev": "4.0 < #hat{m}_{#mu#mu} < 5.0 GeV/c^{2}",
+        "5gev": "5.0 < #hat{m}_{#mu#mu} < 6.0 GeV/c^{2}",
+        "8gev": "8.0 < #hat{m}_{#mu#mu} < 9.0 GeV/c^{2}",
+        "10gev": "10.0 < #hat{m}_{#mu#mu} < 11.0 GeV/c^{2}",
+        "20gev": "20.0 < #hat{m}_{#mu#mu} < 21.0 GeV/c^{2}",
     }
 
     dnames_formatted = {
