@@ -22,7 +22,13 @@ Calculations:
 For each ABCD region:
 1. Read json file of the specified mass region and ABCD region.
     json files can be made using dimuon_pairs_abcd_sort.py.
-    json files can be made using dimuon_pairs_abcd_sort.py.
+    Files should be a dictionaries that contain the values of all variables needed
+    (listed above), in the form
+    {
+        "deta": [event 1 deta, event 2 deta, event 3 deta, ...],
+        "eta_avg": [event 1 eta_avg, event 2 eta_avg, event 3 eta_avg, ...],
+        ...
+    }
     
     Examples of mass regions: 
     "JPsi": events with dimuon masses of 3.05-3.15 GeV.
