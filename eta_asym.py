@@ -1,11 +1,11 @@
 """
 Plot 1d histogram of eta_asym vs abs(eta_avg) for ABCD regions 
-of double J/Psi (dimuon) events.
+of paired dimuon events.
 
 Variables needed:
 1. deta = eta1 - eta2,
 2. eta_avg = (eta1 + eta2) / 2,
-    where eta1 corresponds to the leading-pT J/Psi.
+    where eta1 corresponds to the leading-pT dimuon.
 
 (Optional for additional plots)
 3. eta1
