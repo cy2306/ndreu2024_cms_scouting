@@ -1,6 +1,6 @@
 """
 Plot 1d histogram of eta_asym vs abs(eta_avg) for ABCD regions 
-of double J/Psi events.
+of double J/Psi (dimuon) events.
 
 Variables needed:
 1. deta = eta1 - eta2,
