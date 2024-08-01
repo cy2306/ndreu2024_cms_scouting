@@ -6,7 +6,7 @@ where R(alpha) is the best fit function of C(alpha) / D(alpha).
 
 1. For a specified region of dimuon masses (mass region), 
     read json files for each ABCD region.
-    json files can be made using bkgest_abcd_sort.py.
+    json files can be made using dimuon_pairs_abcd_sort.py.
     
     Examples of mass regions: 
     "JPsi": events with dimuon masses of 3.05-3.15 GeV.
