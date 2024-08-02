@@ -29,15 +29,18 @@ For each event in the TTree:
         (all four muons do not have the same charge) 
 
 
-3. Sort selected events into ABCD regions based on four-muon charge
+3. Get all the relevant variables (listed above).        
+
+4. Sort selected events into ABCD regions based on four-muon charge
     and mass asymmetry of dimuon pair.
+    
     A: m_asymm <= 0.05 and q_four == 0
     B: m_asymm <= 0.05 and q_four != 0
     C: 0.075 <= m_asymm <= 0.5 and q_four == 0
     D: 0.075 <= m_asymm <= 0.5 and q_four != 0
 
 
-4. Further sort events in mass regions based on average dimuon mass,
+5. Further sort events in mass regions based on average dimuon mass,
     and append relevant variables to the correct list to be saved.
 
     "control1": 2.5 <= mavg < 3.05
@@ -47,7 +50,7 @@ For each event in the TTree:
 
     
 After looping through all events: 
-5. Create a json file for each ABCD region and mass region. 
+6. Create a json file for each ABCD region and mass region. 
     Each file is a dictionary of lists containing relevant variables, 
     formatted as follows.
     {
