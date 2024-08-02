@@ -1,8 +1,24 @@
-"""
 Sort events in a root file into ABCD regions for background estimates 
-using the ABCD method.
-1. For each event in the TTree, identify the dimuon pair of lowest 
-    mass asymmetry.
+using the ABCD method for paired dimuon events.
+Save the values of relevant variables in each event. e.g.
+
+    "mavg": average dimuon mass, 
+    "mfour": four-muon mass, 
+    "alpha": ratio of mavg:mfour, 
+    "dR": deltaR between dimuons,
+    "pt_lead": pT of leading muon,
+    "pt_last": pT of slowest muon,
+    "pt_dimlead": pT of leading dimuon,
+    "pt_dimlast": pT of second dimuon,
+    "eta1": eta of leading dimuon,
+    "eta2": eta of second dimuon,
+    "eta_avg": average eta of dimuons,
+    "deta": eta1 - eta2
+
+    
+For each event in the TTree:
+1. Identify the dimuon pair of lowest mass asymmetry.
+
 2. Select events based on restrictions in number of muons, 
     mass asymmetry, dimuon charge, dimuon mass, etc. 
     Events are included if all of the following are met.
@@ -13,19 +29,26 @@ using the ABCD method.
     (all four muons do not have the same charge)
     2.5 <= mavg <= 4.0 
     (average dimuon mass matches J/Psi at 3.1 GeV)
+
+
 3. Sort selected events into ABCD regions based on four-muon charge
     and mass asymmetry of dimuon pair.
     A: m_asymm <= 0.05 and q_four == 0
     B: m_asymm <= 0.05 and q_four != 0
     C: 0.075 <= m_asymm <= 0.5 and q_four == 0
     D: 0.075 <= m_asymm <= 0.5 and q_four != 0
+
+
 4. Further sort events in mass regions based on average dimuon mass,
     and append relevant variables to the correct list to be saved.
+
     "control1": 2.5 <= mavg < 3.05
     "JPsi": 3.05 <= mavg < 3.15
     "control2": 3.15 <= mavg <= 4.0
-    "all": 2.5 <= mavg <= 4.0
+    ...
+
     
+After looping through all events: 
 5. Create a json file for each ABCD region and mass region. 
     Each file is a dictionary of lists containing relevant variables, 
     formatted as follows.
@@ -35,23 +58,37 @@ using the ABCD method.
         "variable z": [event 1 z, event 2 z, event 3 z, ...],
         ...
     }
+
+"""
+"""
 ############################### Functions ###############################
+
 1. dvar_create(mass_region, abcd_region, lvariables)
     Creates an empty dictionary to hold variables for an ABCD region.
+
     mass_region: str
-        Name to specify the range of dimuon masses considered.
+    Name to specify the range of dimuon masses considered.
+
     abcd_region: str ("A", "B", "C", "D", or "ABCD")
-        Name to specify the ABCD region.
+    Name to specify the ABCD region.
+    
     lvariables: list of str
-        Names of all the relevant variables.
+    Names of all the relevant variables.
+    
     Return: dict
+
+
 2. abcd_sort(m_asymm, q_four)
     Assigns an event to an ABCD region.
+    
     m_asymm: float
-        Mass asymmetry between dimuons. |m12 - m34| / (m12 + m34)
+    Mass asymmetry between dimuons. |m12 - m34| / (m12 + m34)
+    
     q_four: int
-        Charge of four muons. |q1 + q2| + |q3 + q4|
+    Charge of four muons. |q1 + q2| + |q3 + q4|
+    
     Return: str ("A", "B", "C", or "D")
+
 """
 
 import ROOT
