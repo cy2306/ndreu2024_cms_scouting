@@ -1,7 +1,7 @@
 """
 Sort events in a root file into ABCD regions (according to ABCD method
-of background estimation) and save the momentum vector (p-vector)
-components of
+of background estimation for paired dimuon events) 
+and save the momentum vector (p-vector) components of
 
     1. plead_mu1: muon 1 of the leading-pT dimuon,
     2. psec_mu1: muon 2 of the leading-pT dimuon,
