@@ -23,12 +23,10 @@ For each event in the TTree:
     mass asymmetry, dimuon charge, dimuon mass, etc. 
     Events are included if all of the following are met.
     
-    n_muons >= 4
-    m_asymm <= 0.05 or 0.075 <= m_asymm <= 0.5
-    abs(q1 + q2 + q3 + q4) < 4 
-    (all four muons do not have the same charge)
-    2.5 <= mavg <= 4.0 
-    (average dimuon mass matches J/Psi at 3.1 GeV)
+    1. n_muons >= 4
+    2. m_asymm <= 0.05 or 0.075 <= m_asymm <= 0.5
+    3. abs(q1 + q2 + q3 + q4) < 4 
+        (all four muons do not have the same charge) 
 
 
 3. Sort selected events into ABCD regions based on four-muon charge
