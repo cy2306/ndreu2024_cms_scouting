@@ -21,7 +21,7 @@ Calculations:
 
 For each ABCD region:
 1. Read json file of the specified mass region and ABCD region.
-    json files can be made using dimuon_pairs_abcd_sort.py.
+    json files can be made using bkgest_abcd_sort.py.
     Files should be a dictionaries that contain the values of all 
     variables needed (listed above), in the form
     {
