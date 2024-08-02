@@ -23,9 +23,9 @@ For each event in the TTree:
     mass asymmetry, dimuon charge, dimuon mass, etc. 
     Events are included if all of the following are met.
     
-    1. n_muons >= 4
-    2. m_asymm <= 0.05 or 0.075 <= m_asymm <= 0.5
-    3. abs(q1 + q2 + q3 + q4) < 4 
+    a. n_muons >= 4
+    b. m_asymm <= 0.05 or 0.075 <= m_asymm <= 0.5
+    c. abs(q1 + q2 + q3 + q4) < 4 
         (all four muons do not have the same charge) 
 
 
