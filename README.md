@@ -132,9 +132,13 @@ The variables and regions of interest can be easily specified/changed in the cod
 **References**
 
 [1] A. M. Sirunyan et al., JINST 13 (P06015), DOI: 10.1088/1748-0221/13/06/P06015.
+
 [2] S. Mukherjee, in LLC Workshop (Amsterdam Science Park, 2018).
+
 [3] W. Buttinger, Background Estimation with the ABCD Method Featuring the TRooFit 
 Toolkit (2018).
+
 [4] T. Agatonovic-Jovin et al., in PoS(EPS-HEP2021), Vol. 398 (2022) p. 495.
+
 [5] The CMS collaboration, J. High Energ. Phys. 94, DOI: 10.1007/JHEP09(2014)094.
 
