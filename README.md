@@ -12,6 +12,7 @@ physics.
 
 ![image](https://github.com/user-attachments/assets/a4982b45-2569-4580-baef-0cf587e62c8b)
 
+----------
 
 **Background estimation using the ABCD method**
 
@@ -61,6 +62,7 @@ is then plotted by weighting each event in region B by $R_{C/D}(\alpha)$.
 Plots of the ratio $N_{C} / N_{D}$ and the background estimation $N_{A}^{bkg}$ are 
 made using **bkgest_abcd_fit.py**.
 
+----------
 
 **Measurements of angular production distributions**
 
@@ -106,8 +108,10 @@ Momentum vectors of the muons, dimuons, and four-muon particles of each event ar
 obtained using **pvectors_abcd_sort.py**. Then, plot of the $\Delta\Phi$ distribution
 is made using **aplanarity.py**.
 
+----------
 
 **Comments on the code**
+
 The files used in this project are
 
 1. **bkgest_abcd_sort.py** for selecting events, obtaining relevant quantities
@@ -123,6 +127,7 @@ plots of different variables (e.g. $R_{C/D}(p_{T})$ instead of $R_{C/D}(\alpha)$
 $\hat{m}\_{\mu\mu}$ windows, or ABCD regions in parallel. 
 The variables and regions of interest can be easily specified/changed in the code.
 
+----------
 
 **References**
 
