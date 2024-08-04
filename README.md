@@ -63,6 +63,7 @@ made using **bkgest_abcd_fit.py**.
 
 
 **Measurements of angular production distributions**
+
 As a proof of principle, $\eta$ asymmetry and the CPV sensitive angle $\Delta\Phi$ are
 measured for $J/\psi$ pair production events. The $\eta$ asymmetry 
 $A_{2J/\psi}^{\eta}$ is a measure of directional bias in the $J/\psi$ pair production 
