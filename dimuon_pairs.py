@@ -1,5 +1,34 @@
-# Looking at pairs of dimuons (from events with n >= 4 muons) 
-#with the lowest mass asymmetry.
+"""
+For a specified range of average dimuon masses, plot distributions of 
+individual muon mass (m), average dimuon mass (m_avg), four-muon mass 
+(m_four), and deltaR between dimuons.
+
+For each event in TTree:
+1. Identify the dimuon pair of lowest mass asymmetry.
+
+2. Select events based on restrictions in number of muons, 
+    mass asymmetry, dimuon charge, dimuon mass, etc. 
+    Events are included if all of the following are met.
+    
+    a. n_muons >= 4
+    b. m_asymm <= 0.05
+    c. abs(q1 + q2 + q3 + q4) < 4 
+        (all four muons do not have the same charge)
+    d. m1 < m_avg < m2
+        (average dimuon mass is within a certain range)
+
+        Examples of average dimuon mass ranges:
+        m_avg < 3.5 or m_avg > 4.0      for J/Psi (3.1 GeV)
+        m_avg < 10.0 or m_avg > 10.5    for Upsilon (9.46 GeV)
+        no restriction on m_avg         for the entire m_avg spectrum
+
+
+After looping through all events:
+3. Plot m, m_avg, m_four, deltaR distributions.
+    All four distributions drawn on the same canvas, saved to pdf file.
+
+"""
+
 import ROOT
 from ROOT import *
 
@@ -36,9 +65,6 @@ for e in T:
 
     n_muons = len(T.muon_pt)
     if n_muons < 4: continue   # Only looking at events with n>=4 muons.
-    #if n_muons != 4: continue   # For checking with previous results.
-
-    #if n_muons < 6: continue    # For checking code with a single event.
 
     """ print("n_muons: ", n_muons)
     print("k", k) """
@@ -131,7 +157,7 @@ for e in T:
     i = lm_asymm.index(min(lm_asymm))   # index of lowest m_asymm.
 
     # Setting restriction on mass asymmetry.
-    if lm_asymm[i] > 0.01: continue
+    if lm_asymm[i] > 0.05: continue
 
     """ print()
     print("m_asymm:")
