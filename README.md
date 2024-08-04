@@ -122,10 +122,18 @@ The files used in this project are
    sorting events into ABCD regions,
 5. **aplanarity.py** for plotting $\Delta\Phi$.
 
-All plots are produced using PyROOT. Python files are designed to produce multiple
-plots of different variables (e.g. $R_{C/D}(p_{T})$ instead of $R_{C/D}(\alpha)$ ), 
-$\hat{m}\_{\mu\mu}$ windows, or ABCD regions in parallel. 
-The variables and regions of interest can be easily specified/changed in the code.
+Additional files that may help visualize/analyze the data include
+
+6. **pt_asym.py** for plotting $A_{2J/\psi}^{p_{T}} =
+   \frac{p_{T}^{J/\psi 1} - p_{T}^{J/\psi 2}} {p_{T}^{J/\psi 1} + p_{T}^{J/\psi 2}}$
+   vs. $\hat{p}\_{T}^{J/\psi}$,
+7. **masym_qfour_abcd_sort.py** for obtaining $m_{asym}$, $q_{4\mu}$ and sorting
+   events into ABCD regions,
+8. **bkgest_abcd_space.py** for plotting ABCD regions in a 2d histogram of $m_{asym}$ vs. $q_{4\mu}$.
+
+All plots are produced using PyROOT. Data is read from ROOT file that contains a
+TTree with muon_q, muon_pt, muon_eta, muon_phi. Python files are designed to produce multiple plots of different variables (e.g. $R_{C/D}(p_{T})$ and $R_{C/D}(\alpha)$ ), $\hat{m}\_{\mu\mu}$ windows, or ABCD regions in parallel. 
+The variables and regions of interest can be specified/changed in the code.
 
 ----------
 
