@@ -130,6 +130,7 @@ Additional files that may help visualize/analyze the data include
 7. **masym_qfour_abcd_sort.py** for obtaining $m_{asym}$, $q_{4\mu}$ and sorting
    events into ABCD regions,
 8. **bkgest_abcd_space.py** for plotting ABCD regions in a 2d histogram of $m_{asym}$ vs. $q_{4\mu}$.
+9. **dimuon_pairs.py** for plotting distributions of individual muon mass, $\hat{m}\_{\mu\mu}$, $m_{4\mu}$, $\DeltaR$.
 
 All plots are produced using PyROOT. Data is read from ROOT file that contains a
 TTree with muon_q, muon_pt, muon_eta, muon_phi. Python files are designed to produce multiple plots of different variables (e.g. $R_{C/D}(p_{T})$ and $R_{C/D}(\alpha)$ ), $\hat{m}\_{\mu\mu}$ windows, or ABCD regions in parallel. 
