@@ -1,3 +1,4 @@
+"""
 Sort events in a root file into ABCD regions for background estimates 
 using the ABCD method for paired dimuon events.
 Save the values of relevant variables in each event. e.g.
@@ -61,11 +62,17 @@ After looping through all events:
     }
 
 """
-"""
-############################### Functions ###############################
 
-1. dvar_create(mass_region, abcd_region, lvariables)
-    Creates an empty dictionary to hold variables for an ABCD region.
+import ROOT
+from ROOT import *
+from numpy import empty, argmin
+import json
+
+
+
+def dvar_create(mass_region, abcd_region, lvariables):
+    """
+    Create an empty dictionary to hold variables for an ABCD region.
 
     mass_region: str
     Name to specify the range of dimuon masses considered.
@@ -77,29 +84,7 @@ After looping through all events:
     Names of all the relevant variables.
     
     Return: dict
-
-
-2. abcd_sort(m_asymm, q_four)
-    Assigns an event to an ABCD region.
-    
-    m_asymm: float
-    Mass asymmetry between dimuons. |m12 - m34| / (m12 + m34)
-    
-    q_four: int
-    Charge of four muons. |q1 + q2| + |q3 + q4|
-    
-    Return: str ("A", "B", "C", or "D")
-
-"""
-
-import ROOT
-from ROOT import *
-from numpy import empty, argmin
-import json
-
-
-
-def dvar_create(mass_region, abcd_region, lvariables):
+    """
 
     dvar = {}
     for variable in lvariables:
@@ -111,6 +96,17 @@ def dvar_create(mass_region, abcd_region, lvariables):
 
 
 def abcd_sort(m_asymm, q_four):
+    """
+    Assign an event to an ABCD region.
+    
+    m_asymm: float
+    Mass asymmetry between dimuons. |m12 - m34| / (m12 + m34)
+    
+    q_four: int
+    Charge of four muons. |q1 + q2| + |q3 + q4|
+    
+    Return: str ("A", "B", "C", or "D")
+    """
 
     if m_asymm <= 0.05:
         if q_four < 1:
